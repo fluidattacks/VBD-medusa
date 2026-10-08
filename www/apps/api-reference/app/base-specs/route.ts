@@ -11,11 +11,11 @@ export const GET = withRouteErrorHandling(async (request: Request) => {
   const { searchParams } = new URL(request.url)
   const area = searchParams.get("area")
   const expand = searchParams.get("expand")
-  if (area !== "admin" && area !== "store") {
+  if (!area) {
     return NextResponse.json(
       {
         success: false,
-        message: `area ${area} is not allowed`,
+        message: `area is required`,
       },
       {
         status: 400,
