@@ -26,7 +26,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     return res.status(200).json({ location })
   }
 
-  if (success && authIdentity) {
+  // Issue a token when the provider resolved an identity for the request.
+  if (success || authIdentity) {
     const result = await generateJwtTokenWithChecks(req.scope, {
       authIdentity,
       mfaChallenge,
