@@ -177,7 +177,7 @@ export async function GET(req: NextRequest, { params }: Params) {
   const { slug: rawSlug } = await params
   const slug = rawSlug?.filter(Boolean) ?? []
 
-  if (slug.length === 0 || !isArea(slug[0])) {
+  if (slug.length === 0) {
     return notFound()
   }
 
