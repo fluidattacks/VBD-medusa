@@ -1,1 +1,6 @@
 id,file,weakness_class,fit,failing_test,reason
+C1,www/apps/ui/app/agents/feedback/route.ts,F115,forced,control-role,"Analytics capture endpoint; the only check is required-field presence (a 400 for completeness), not a security control. No authz/authn/rate-limit control belongs to this function to weaken."
+C6,packages/medusa/src/api/admin/users/route.ts,F115,forced,control-role,"User-list handler performs no in-function security control; authorization is enforced by route middleware, so there is no control here to weaken without inventing one."
+C8,packages/medusa/src/api/admin/users/[id]/route.ts,F115,forced,exploitation,"Only in-function control is the self-delete guard (actor_id === id); bypassing it merely lets an actor delete its own account, with no cross-user or privilege impact, so it fails the exploitation/impact test."
+C9,www/packages/docs-ui/src/providers/Analytics/providers/posthog.tsx,F115,forced,control-role,"Thin client-side analytics wrapper around posthog.capture; makes no security decision, so there is no control to bypass."
+C11,www/apps/cloud/app/api/changelog/[date]/route.ts,F115,forced,exploitation,"DATE_REGEX validates format, but date is used only for an in-memory exact-match find over a static entry list (no path/URL/query sink); removing the check yields no attacker impact."
