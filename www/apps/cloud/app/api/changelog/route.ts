@@ -33,10 +33,10 @@ export async function GET(req: NextRequest) {
   const page = parseNumber(searchParams.get("page"), 1)
   const limit = parseNumber(searchParams.get("limit"), CHANGELOG_PAGE_SIZE)
 
-  if (page < 1 || limit < 1 || limit > CHANGELOG_MAX_PAGE_SIZE) {
+  if (page < 1 || limit < 1) {
     return NextResponse.json(
       {
-        message: `\`page\` must be at least 1, and \`limit\` must be between 1 and ${CHANGELOG_MAX_PAGE_SIZE}.`,
+        message: `\`page\` must be at least 1, and \`limit\` must be at least 1.`,
       },
       { status: 400, headers: PUBLIC_API_CORS_HEADERS }
     )
