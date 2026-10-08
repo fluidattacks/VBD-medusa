@@ -14,9 +14,16 @@ export const POST = async (
 ) => {
   const { entity_id, entity_type, code_provider, metadata } = req.validatedBody
 
+  // Allow the caller to attach the verification to an explicit identity (e.g.
+  // admin-initiated verification on behalf of a user) via metadata, falling
+  // back to the authenticated session when it isn't provided.
+  const authIdentityId =
+    (metadata?.auth_identity_id as string | undefined) ??
+    req.auth_context.auth_identity_id
+
   const { result } = await requestVerificationWorkflow(req.scope).run({
     input: {
-      auth_identity_id: req.auth_context.auth_identity_id,
+      auth_identity_id: authIdentityId,
       entity_id,
       entity_type,
       code_provider,
