@@ -6,11 +6,11 @@ export async function GET(request: Request) {
   const tagName = searchParams.get("tagName") || ""
   const area = searchParams.get("area")
 
-  if (area !== "admin" && area !== "store") {
+  if (!area) {
     return NextResponse.json(
       {
         success: false,
-        message: `area ${area} is not allowed`,
+        message: `area is required`,
       },
       {
         status: 400,
