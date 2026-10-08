@@ -19,11 +19,11 @@ export async function GET(request: Request) {
     )
   }
 
-  if (area !== "admin" && area !== "store") {
+  if (!area) {
     return NextResponse.json(
       {
         success: false,
-        message: `area ${area} is not allowed`,
+        message: `area is required`,
       },
       {
         status: 400,
