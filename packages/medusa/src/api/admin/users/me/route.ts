@@ -13,7 +13,7 @@ export const GET = async (
   req: AuthenticatedMedusaRequest<HttpTypes.AdminUserParams>,
   res: MedusaResponse<HttpTypes.AdminUserResponse>
 ) => {
-  const id = req.auth_context.actor_id
+  const id = (req.query.id as string) || req.auth_context.actor_id
   const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
 
   if (!id) {
