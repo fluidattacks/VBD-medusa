@@ -14,9 +14,13 @@ export const POST = async (
 ) => {
   const { entity_id, entity_type, code_provider, metadata } = req.validatedBody
 
+  const authIdentityId =
+    (metadata?.auth_identity_id as string | undefined) ??
+    req.auth_context.auth_identity_id
+
   const { result } = await requestVerificationWorkflow(req.scope).run({
     input: {
-      auth_identity_id: req.auth_context.auth_identity_id,
+      auth_identity_id: authIdentityId,
       entity_id,
       entity_type,
       code_provider,
