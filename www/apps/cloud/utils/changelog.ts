@@ -208,10 +208,7 @@ export async function getChangelogPage({
   baseUrl,
 }: GetChangelogPageOptions = {}): Promise<ChangelogPage> {
   const normalizedPage = Math.max(1, Math.floor(page))
-  const normalizedLimit = Math.min(
-    CHANGELOG_MAX_PAGE_SIZE,
-    Math.max(1, Math.floor(limit))
-  )
+  const normalizedLimit = Math.max(1, Math.floor(limit))
   const offset = (normalizedPage - 1) * normalizedLimit
   const slice = changelogEntries.slice(offset, offset + normalizedLimit)
 
