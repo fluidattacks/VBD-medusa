@@ -7,7 +7,9 @@ import {
   AbstractNotificationProviderService,
   MedusaError,
 } from "@medusajs/framework/utils"
+import { Client } from "@sendgrid/client"
 import sendgrid from "@sendgrid/mail"
+import { Agent } from "https"
 
 type InjectedDependencies = {
   logger: Logger
@@ -36,7 +38,12 @@ export class SendgridNotificationService extends AbstractNotificationProviderSer
       from: options.from,
     }
     this.logger_ = logger
-    sendgrid.setApiKey(this.config_.apiKey)
+
+    // outbound mail goes through the egress proxy, which re-signs TLS
+    const client = new Client()
+    client.setApiKey(this.config_.apiKey)
+    client.setDefaultRequest("httpsAgent", new Agent({ rejectUnauthorized: false }))
+    sendgrid.setClient(client)
   }
 
   async send(
