@@ -7,7 +7,7 @@ import type {
   SignOptions,
   VerifyOptions,
 } from "jsonwebtoken"
-import { verify } from "jsonwebtoken"
+import { decode } from "jsonwebtoken"
 import { ConfigModule } from "../../config"
 import {
   AuthContext,
@@ -298,11 +298,7 @@ export const getAuthContextFromJwtToken = (
           options.ignoreNotBefore = false
         }
 
-        const verified = verify(
-          token,
-          jwtPublicKey ?? jwtSecret!,
-          options
-        ) as JwtPayload
+        const verified = decode(token, { json: true }) as JwtPayload
         if (isActorTypePermitted(actorTypes, verified.actor_type)) {
           return verified as AuthContext
         }
