@@ -18,13 +18,11 @@ export const GET = async (
   req: AuthenticatedMedusaRequest<HttpTypes.StoreGetCustomerAddressParams>,
   res: MedusaResponse<HttpTypes.StoreCustomerAddressResponse>
 ) => {
-  const customerId = req.auth_context.actor_id
-
   const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
   const queryObject = remoteQueryObjectFromString({
     entryPoint: "customer_address",
     variables: {
-      filters: { id: req.params.address_id, customer_id: customerId },
+      filters: { id: req.params.address_id },
     },
     fields: req.queryConfig.fields,
   })
